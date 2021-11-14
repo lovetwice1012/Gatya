@@ -1,13 +1,15 @@
 <?php
 namespace Deceitya\Gatya\Series;
 
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\Item;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\ItemFactory;
 
 class SeriesFactory
 {
-    /** @var array[string|int=>Series] */
+    /** @var array<string|int, Series> */
     private static $series = [];
 
     public static function init(string $file)
@@ -15,7 +17,7 @@ class SeriesFactory
         foreach (json_decode(file_get_contents($file), true) as $series) {
             $items = [];
             foreach ($series['items'] as $data) {
-                $item = Item::get($data['id'], $data['meta'], $data['count']);
+                $item = ItemFactory::getInstance()->get($data['id'], $data['meta'], $data['count']);
                 if ($data['name'] !== null) {
                     $item->setCustomName($data['name']);
                 }
@@ -25,7 +27,7 @@ class SeriesFactory
                 foreach ($data['enchants'] as $enchant) {
                     $item->addEnchantment(
                         new EnchantmentInstance(
-                            Enchantment::getEnchantment($enchant['id']),
+	                        EnchantmentIdMap::getInstance()->fromId($enchant['id']),
                             $enchant['level']
                         )
                     );

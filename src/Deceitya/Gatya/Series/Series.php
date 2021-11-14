@@ -2,6 +2,7 @@
 namespace Deceitya\Gatya\Series;
 
 use pocketmine\item\Item;
+use pocketmine\utils\AssumptionFailedError;
 
 class Series
 {
@@ -11,14 +12,14 @@ class Series
     private $name;
     /** @var int */
     private $cost;
-    /** @var array[float,Item] */
+    /** @var array<int, array{float, Item}> */
     private $items;
 
     /**
      * @param integer $id
      * @param string $name
      * @param int $cost
-     * @param array[float,Item] $items
+     * @param array<int, array{float, Item}> $items
      */
     public function __construct(int $id, string $name, int $cost, array $items)
     {
