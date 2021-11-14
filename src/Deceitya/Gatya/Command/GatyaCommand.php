@@ -1,31 +1,38 @@
 <?php
 namespace Deceitya\Gatya\Command;
 
+use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
 use Deceitya\Gatya\Main;
 use Deceitya\Gatya\Form\SeriesForm;
 use Deceitya\Gatya\Series\SeriesFactory;
 use Deceitya\Gatya\Utils\MessageContainer;
 use onebone\economyapi\EconomyAPI;
+use pocketmine\player\Player;
 
-class GatyaCommand extends PluginCommand
+class GatyaCommand extends Command
 {
+	/** @var Main $plugin */
+	public $plugin;
+
     public function __construct(Main $plugin)
     {
-        parent::__construct('gt', $plugin);
+        parent::__construct('gt', MessageContainer::get('command.gt.description'), MessageContainer::get('command.gt.usage'));
 
         $this->setPermission('gatya.command.gt');
-        $this->setDescription(MessageContainer::get('command.gt.description'));
-        $this->setUsage(MessageContainer::get('command.gt.usage'));
+	    $this->setPlugin($plugin);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
-        if (!parent::execute($sender, $commandLabel, $args)) {
-            return false;
-        }
+//        if (!parent::execute($sender, $commandLabel, $args)) {
+//            return false;
+//        }
+
+	    if(!$this->testPermission($sender)){
+		    return true;
+	    }
 
         if (!($sender instanceof Player)) {
             return true;
@@ -67,4 +74,12 @@ class GatyaCommand extends PluginCommand
             return true;
         }
     }
+
+	public function getPlugin() : Main{
+		return $this->plugin;
+	}
+
+	protected function setPlugin(Main $plugin) : void{
+		$this->plugin = $plugin;
+	}
 }

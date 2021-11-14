@@ -1,6 +1,7 @@
 <?php
 namespace Deceitya\Gatya;
 
+use pocketmine\permission\PermissionParser;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -12,7 +13,7 @@ use Deceitya\Gatya\Utils\MessageContainer;
 
 class Main extends PluginBase
 {
-    public function onEnable()
+    public function onEnable(): void
     {
         $this->saveResource('series.json');
         MessageContainer::load($this);
@@ -28,13 +29,6 @@ class Main extends PluginBase
 
     private function registerCommand()
     {
-        PermissionManager::getInstance()->addPermission(
-            new Permission(
-                'gatya.command.gt',
-                'Allows the user to run the gt command',
-                Permission::DEFAULT_TRUE
-            )
-        );
         $this->getServer()->getCommandMap()->register('gatya', new GatyaCommand($this));
     }
 
@@ -43,7 +37,7 @@ class Main extends PluginBase
         foreach (SeriesFactory::getAllSeries() as $series) {
             if ($series->getChanceSum() !== 100.0) {
                 $this->getLogger()->warning(MessageContainer::get('chance_invalid', $series->getName()));
-                $this->setEnabled(false);
+                $this->getServer()->getPluginManager()->disablePlugin($this);
             }
         }
     }

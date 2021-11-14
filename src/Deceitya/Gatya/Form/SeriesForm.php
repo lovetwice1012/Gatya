@@ -2,9 +2,9 @@
 namespace Deceitya\Gatya\Form;
 
 use pocketmine\form\Form;
-use pocketmine\Player;
 use Deceitya\Gatya\Series\SeriesFactory;
 use Deceitya\Gatya\Utils\MessageContainer;
+use pocketmine\player\Player;
 
 class SeriesForm implements Form
 {

@@ -2,7 +2,7 @@
 namespace Deceitya\Gatya\Form;
 
 use pocketmine\form\Form;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\Server;
 use Deceitya\Gatya\Series\SeriesFactory;
 use Deceitya\Gatya\Utils\MessageContainer;
